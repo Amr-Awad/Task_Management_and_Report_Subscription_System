@@ -15,9 +15,9 @@ import java.time.LocalDate;
 public class SubscriptionRequest {
 
     @NotNull
-    private LocalDate startDate;
+    private ReportFrequency frequency;
 
     @NotNull
-    private ReportFrequency frequency;
+    private int reportHour;
 }
 

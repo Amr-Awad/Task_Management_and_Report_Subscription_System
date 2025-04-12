@@ -1,3 +1,0 @@
-jwt:
-  secret: secretkey1234567890
-  expirationMs: 86400000 # 1 day

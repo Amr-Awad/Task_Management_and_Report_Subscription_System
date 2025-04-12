@@ -1,8 +1,10 @@
 package org.example.task.repository;
 
+import jakarta.transaction.Transactional;
 import org.example.task.model.entity.Subscription;
 import org.example.task.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -21,4 +23,13 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 
     @Query("SELECT s FROM Subscription s WHERE s.user = :user")
     Optional<Subscription> findByUser(@Param("user") User user);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Subscription s WHERE s.user = :user")
+    void deleteByUser(@Param("user") User user);
+
+    @Query("SELECT s FROM Subscription s WHERE s.reportHour = :hour")
+    List<Subscription> findAllUsersToReport(@Param("hour") int hour);
+
 }

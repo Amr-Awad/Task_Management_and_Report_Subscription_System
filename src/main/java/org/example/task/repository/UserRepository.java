@@ -15,8 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     Boolean existsByEmail(String email);
 
-    //get all users with a subscription
     @Query("SELECT u FROM User u WHERE u.subscription IS NOT NULL")
     List<User> findAllUsersWithSubscription();
+
+
 
 }

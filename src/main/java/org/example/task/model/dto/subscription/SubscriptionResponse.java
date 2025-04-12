@@ -10,9 +10,12 @@ import java.time.LocalDate;
  * Contains the start date and frequency of the subscription.
  */
 
-@NoArgsConstructor @AllArgsConstructor @Setter @Getter @ToString
+@NoArgsConstructor @AllArgsConstructor @Getter @Setter @ToString
 public class SubscriptionResponse {
 
+    private Long id;
     private LocalDate startDate;
     private ReportFrequency frequency;
+    private int reportHour;
+
 }
