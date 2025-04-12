@@ -28,6 +28,16 @@ public class TaskController {
         return ResponseEntity.ok(taskService.createTask(request, auth));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskResponse> getTaskById(@PathVariable Long id, Authentication auth) {
+        return ResponseEntity.ok(taskService.getTaskByIdForUser(id, auth));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<TaskResponse>> getAllTasks(Authentication auth) {
+        return ResponseEntity.ok(taskService.getAllTasksForUser(auth));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<TaskResponse> updateTask(@PathVariable Long id,
                                                    @Valid @RequestBody TaskRequest request,
@@ -55,11 +65,11 @@ public class TaskController {
     }
 
     @PostMapping("/restore")
-    public ResponseEntity<TaskResponse> restoreLastDeletedTask(Authentication auth) {
-        return ResponseEntity.ok((TaskResponse) taskService.restoreLastDeleted(auth));
+    public ResponseEntity<List<TaskResponse>> restoreLastDeletedTask(Authentication auth) {
+        return ResponseEntity.ok(taskService.restoreLastDeleted(auth));
     }
 
-    @GetMapping
+    @GetMapping("/filter")
     public ResponseEntity<List<TaskResponse>> filterTasks(@RequestParam(required = false) LocalDate from,
                                                           @RequestParam(required = false) LocalDate to,
                                                           @RequestParam(required = false) TaskStatus status,

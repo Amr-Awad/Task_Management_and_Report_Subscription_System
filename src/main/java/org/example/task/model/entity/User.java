@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.example.task.util.enums.RoleType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  * Each user has attributes such as name, email, password, role, and associated tasks.
  */
 
-@NoArgsConstructor @AllArgsConstructor @Setter @Getter @ToString
+@AllArgsConstructor @Setter @Getter @ToString
 @Entity
 @Table(name = "users")
 public class User {
@@ -50,11 +51,22 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Subscription subscription;
 
+    public User() {
+        tasks = new ArrayList<>();
+        subscription = null;
+    }
     public User(String name, String email, String password, RoleType role) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public void addTask(Task task) {
+        if (tasks == null) {
+            tasks = new ArrayList<>();
+        }
+        tasks.add(task);
     }
 
 }

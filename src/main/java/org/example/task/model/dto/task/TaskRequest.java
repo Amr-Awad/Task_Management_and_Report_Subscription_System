@@ -2,6 +2,7 @@ package org.example.task.model.dto.task;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.example.task.util.enums.TaskStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -13,7 +14,6 @@ import java.time.LocalDate;
 @NoArgsConstructor @AllArgsConstructor @Setter @Getter @ToString
 public class TaskRequest {
 
-    @NotBlank
     private String title;
     private String description;
     private LocalDate startDate;

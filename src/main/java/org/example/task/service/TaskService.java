@@ -29,18 +29,78 @@ public class TaskService {
     public TaskResponse createTask(TaskRequest request, Authentication auth) {
         User user = getCurrentUser(auth);
 
+        if(request.getTitle() == null || request.getTitle().isEmpty()) {
+            throw new InvalidTaskOperationException("Title cannot be null or empty.");
+        }
+        if(request.getStartDate() == null || request.getDueDate() == null) {
+            throw new InvalidTaskOperationException("Start date and due date cannot be null.");
+        }
+        if(request.getStartDate().isAfter(request.getDueDate() )) {
+            throw new InvalidTaskOperationException("Start date cannot be after due date.");
+        }
+
         Task task = new Task();
         task.setTitle(request.getTitle());
-        task.setDescription(request.getDescription());
+        task.setDescription(request.getDescription() != null ? request.getDescription() : "");
         task.setStartDate(request.getStartDate());
         task.setDueDate(request.getDueDate());
-        task.setCompletionDate(request.getCompletionDate());
+        task.setCompletionDate(null);
         task.setStatus(TaskStatus.PENDING);
-        task.setUser(user);
         task.setDeleted(false);
         task.setDeletedAt(null);
 
-        return toResponse(taskRepository.save(task));
+        // Save the task
+        TaskResponse taskResponse = toResponse(taskRepository.save(task));
+
+        // Set the user
+        taskRepository.addUserToTask(user.getId(), taskResponse.getId());
+
+        return taskResponse;
+    }
+
+    public TaskResponse getTaskByIdForUser(Long id, Authentication auth) {
+        User user = getCurrentUser(auth);
+
+        if(!taskRepository.existsById(id)) {
+            throw new TaskNotFoundException(id);
+        }
+
+        taskRepository.updateTaskStatusToOverdueById(id, LocalDate.now());
+
+        Task task =taskRepository.findActiveById(id).orElseThrow(() -> new TaskNotFoundException(id));
+
+        if (!task.getUser().getId().equals(user.getId())) {
+            throw new InvalidTaskOperationException("You do not own this task.");
+        }
+
+
+        return toResponse(task);
+    }
+
+    public List<TaskResponse> getAllTasksForUser(Authentication auth) {
+        User user = getCurrentUser(auth);
+
+        taskRepository.updateTaskStatusToOverdue(LocalDate.now());
+
+        List<Task> tasks = taskRepository.findAllByUserAndDeletedFalse(user);
+
+        return tasks.stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
+    public List<TaskResponse> filterTasks(TaskFilterRequest request, Authentication auth) {
+        User user = getCurrentUser(auth);
+
+        if(request.getFromDate().isAfter( request.getToDate() )) {
+            throw new InvalidTaskOperationException("Start date cannot be after due date.");
+        }
+        List<Task> tasks = taskRepository.findTasksByConditionalParameters(
+                user,
+                request.getFromDate(),
+                request.getToDate(),
+                request.getStatus()
+        );
+
+        return tasks.stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     public TaskResponse updateTask(Long id, TaskRequest request, Authentication auth) {
@@ -55,14 +115,15 @@ public class TaskService {
             throw new InvalidTaskOperationException("This task is deleted and cannot be updated.");
         }
 
-        task.setTitle(request.getTitle());
-        task.setDescription(request.getDescription());
-        task.setStartDate(request.getStartDate());
-        task.setDueDate(request.getDueDate());
-        task.setCompletionDate(request.getCompletionDate());
-        task.setStatus(request.getStatus());
-        task.setDeleted(false);
-        task.setDeletedAt(null);
+        //set attributes if they exists in lambda
+        task.setTitle(request.getTitle() != null ? request.getTitle() : task.getTitle());
+        task.setDescription(request.getDescription() != null ? request.getDescription() : task.getDescription());
+        task.setStartDate(request.getStartDate() != null ? request.getStartDate() : task.getStartDate());
+        task.setDueDate(request.getDueDate() != null ? request.getDueDate() : task.getDueDate());
+
+        if (request.getStartDate() != null && request.getDueDate() != null && request.getStartDate().isAfter(request.getDueDate())) {
+            throw new InvalidTaskOperationException("Start date cannot be after due date.");
+        }
 
         return toResponse(taskRepository.save(task));
     }
@@ -82,7 +143,6 @@ public class TaskService {
 
         return toResponse(taskRepository.save(task));
     }
-
 
     public void deleteTask(Long id, Authentication auth) {
         User user = getCurrentUser(auth);
@@ -143,26 +203,22 @@ public class TaskService {
         return toRestore.stream().map(this::toResponse).collect(Collectors.toList());
     }
 
-
-
-    public List<TaskResponse> filterTasks(TaskFilterRequest request, Authentication auth) {
-        User user = getCurrentUser(auth);
-        List<Task> tasks = taskRepository.findTasksByConditionalParameters(
-                user,
-                request.getFromDate(),
-                request.getToDate(),
-                request.getStatus()
-        );
-
-        return tasks.stream().map(this::toResponse).collect(Collectors.toList());
-    }
-
     public void deleteOldSoftDeletedTasks() {
         LocalDateTime cutoff = LocalDateTime.now().minusDays(1);
         List<Task> toDelete = taskRepository.findByDeletedTrueAndDeletedAtBefore(cutoff);
 
         taskRepository.deleteAll(toDelete);
         System.out.println("🧹 Cleaned up " + toDelete.size() + " old soft-deleted tasks.");
+    }
+
+    public void updateTaskStatusToOverdue() {
+        LocalDate now = LocalDate.now();
+        taskRepository.updateTaskStatusToOverdue(now);
+    }
+
+    public void updateTaskStatusToOverdueById(Long id) {
+        LocalDate now = LocalDate.now();
+        taskRepository.updateTaskStatusToOverdueById(id, now);
     }
 
     private TaskResponse toResponse(Task task) {
