@@ -1,13 +1,11 @@
 # 📘 Task Management & Reporting System Documentation
 
 ## 📌 Project Overview
-
 A backend RESTful system designed using **Java Spring Boot**, allowing users to manage personal tasks, subscribe to automated reports, and trigger business logic via secure APIs. The application supports authentication, dynamic filtering, soft deletion with restoration, and scheduled notifications.
 
 ---
 
 ## 🧱 Architecture
-
 - **MVC REST** layered structure
 - **Spring Security** with JWT authentication
 - **DTOs** for request/response abstraction
@@ -15,8 +13,10 @@ A backend RESTful system designed using **Java Spring Boot**, allowing users to 
 - **Event-Driven Design** for subscription notifications
 - **Scheduled Tasks** for automation
 
-### Folder Structure
+### 🧭 Architecture Diagram
+![Architecture Diagram](./Architecture_Diagram.png)
 
+### Folder Structure
 ```
 src/
 ├── controller/             # Handles API endpoints
@@ -36,7 +36,6 @@ src/
 ---
 
 ## ⚙️ Technologies Used
-
 - Java 17
 - Spring Boot 3.x
 - Spring Security (JWT)
@@ -45,20 +44,51 @@ src/
 - Lombok
 - Validation API (Jakarta)
 - Maven
+- SonarQube (for static analysis)
+- Swagger (for full API documentation)
+
+---
+
+## 🚀 Prerequisites & How to Run
+
+### Prerequisites
+- Java 17 installed
+- Maven installed
+- MySQL or PostgreSQL database running (configure in `application.properties`)
+- (Optional) SonarQube instance running locally or remotely for code analysis
+
+### How to Run
+```bash
+# Clone the repo
+$ git clone <your-repo-url>
+$ cd task-management-system
+
+# Build the application
+$ mvn clean install
+
+# Run the application
+$ mvn spring-boot:run
+
+# Access the API at
+http://localhost:8080/api
+
+# Swagger UI (if enabled)
+http://localhost:8080/swagger-ui/index.html
+```
+
+> Make sure to configure your `application.properties` file with DB credentials and email SMTP settings.
 
 ---
 
 ## 🔐 Authentication
-
-| Endpoint           | Method | Body                                  |
-| ------------------ | ------ | ------------------------------------- |
-| `/api/auth/signup` | POST   | `{ "username", "email", "password" }` |
-| `/api/auth/signin` | POST   | `{ "email", "password" }`             |
+| Endpoint | Method | Body |
+|----------|--------|------|
+| `/api/auth/signup` | POST | `{ "username", "email", "password" }`
+| `/api/auth/signin` | POST | `{ "email", "password" }`
 
 📌 Returns a JWT token on successful login or signup.
 
 ✅ **Handled Errors:**
-
 - Invalid email format
 - Incorrect password
 - Missing fields
@@ -66,27 +96,24 @@ src/
 ---
 
 ## ✅ Task Management API
-
-| Endpoint                   | Method | Purpose                      | Protected? |
-| -------------------------- | ------ | ---------------------------- | ---------- |
-| `/api/tasks`               | POST   | Create a task                | ✅          |
-| `/api/tasks/{id}`          | PUT    | Update task                  | ✅          |
-| `/api/tasks/{id}`          | DELETE | Soft-delete task             | ✅          |
-| `/api/tasks`               | DELETE | Batch delete by date         | ✅          |
-| `/api/tasks/restore`       | POST   | Restore last deleted task(s) | ✅          |
-| `/api/tasks/{id}/complete` | PATCH  | Mark task as completed       | ✅          |
-| `/api/tasks/{id}`          | GET    | Get single task by ID        | ✅          |
-| `/api/tasks`               | GET    | Get all tasks                | ✅          |
-| `/api/tasks/filters`       | GET    | Filter by date & status      | ✅          |
+| Endpoint | Method | Purpose | Protected? |
+|----------|--------|---------|------------|
+| `/api/tasks` | POST | Create a task | ✅ |
+| `/api/tasks/{id}` | PUT | Update task | ✅ |
+| `/api/tasks/{id}` | DELETE | Soft-delete task | ✅ |
+| `/api/tasks` | DELETE | Batch delete by date | ✅ |
+| `/api/tasks/restore` | POST | Restore last deleted task(s) | ✅ |
+| `/api/tasks/{id}/complete` | PATCH | Mark task as completed | ✅ |
+| `/api/tasks/{id}` | GET | Get single task by ID | ✅ |
+| `/api/tasks` | GET | Get all tasks | ✅ |
+| `/api/tasks/filters` | GET | Filter by date & status | ✅ |
 
 📌 **Filtering Example:**
-
 ```
 GET /api/tasks/filters?from=2025-04-01&to=2025-04-10&status=COMPLETED
 ```
 
 ✅ **Handled Errors:**
-
 - Invalid date format
 - Start date after due date
 - Unauthorized user modifying another's task
@@ -95,7 +122,6 @@ GET /api/tasks/filters?from=2025-04-01&to=2025-04-10&status=COMPLETED
 ---
 
 ## 🔄 Safe Delete & Auto Cleanup
-
 - Tasks are **soft deleted** and marked with `deletedAt`
 - Latest batch or task can be **restored**
 - Scheduled job deletes soft-deleted tasks after 24 hours automatically
@@ -103,15 +129,13 @@ GET /api/tasks/filters?from=2025-04-01&to=2025-04-10&status=COMPLETED
 ---
 
 ## 📨 Subscription Management
-
-| Endpoint            | Method | Body                                        | Purpose           |
-| ------------------- | ------ | ------------------------------------------- | ----------------- |
-| `/api/subscription` | POST   | `{ "frequency": "DAILY", "reportHour": 7 }` | Subscribe user    |
-| `/api/subscription` | GET    | —                                           | View subscription |
-| `/api/subscription` | DELETE | —                                           | Unsubscribe user  |
+| Endpoint | Method | Body | Purpose |
+|----------|--------|------|---------|
+| `/api/subscription` | POST | `{ "frequency": "DAILY", "reportHour": 7 }` | Subscribe user |
+| `/api/subscription` | GET | — | View subscription |
+| `/api/subscription` | DELETE | — | Unsubscribe user |
 
 ✅ **Handled Errors:**
-
 - Subscribing twice → `AlreadySubscribedException`
 - Invalid `@Min/@Max` for report hour
 - Unsubscribing when not subscribed → `SubscriptionNotFoundException`
@@ -119,50 +143,55 @@ GET /api/tasks/filters?from=2025-04-01&to=2025-04-10&status=COMPLETED
 ---
 
 ## 🕒 Scheduled Tasks
-
-| Job                 | Frequency | Description                                                                |
-| ------------------- | --------- | -------------------------------------------------------------------------- |
-| Report sender       | Hourly    | Checks report hour and frequency to send task summaries via event listener |
-| Soft-delete cleaner | Hourly    | Deletes soft-deleted tasks older than 1 day                                |
+| Job | Frequency | Description |
+|-----|-----------|-------------|
+| Report sender | Hourly | Checks report hour and frequency to send task summaries via event listener |
+| Soft-delete cleaner | Hourly | Deletes soft-deleted tasks older than 1 day |
 
 ---
 
 ## 🧠 Design Patterns
-
-| Pattern            | Applied In                              |
-| ------------------ | --------------------------------------- |
-| Strategy           | ReportFrequency enum switch logic       |
-| Observer (Pub/Sub) | Spring event publishing for reports     |
-| Template Method    | Unified exception handling base class   |
-| DTO Adapter        | Transforming entity to response objects |
-
----
-
-## 📬 Email Notification
-
-- Triggered by a scheduled check via `@Scheduled`
-- Event published to Spring context with user
-- Listener formats task report
-- Sends via email using JavaMailSender from `noreply@taskmanager.com`
+| Pattern | Applied In |
+|--------|------------|
+| Strategy | ReportFrequency enum switch logic |
+| Observer (Pub/Sub) | Spring event publishing for reports |
+| Template Method | Unified exception handling base class |
+| DTO Adapter | Transforming entity to response objects |
 
 ---
 
-## 🧪 Postman API Collection
+## 📊 API Documentation & Static Code Analysis
 
+### 🧞 API Documentation (Swagger)
+- Full documentation with **Swagger (OpenAPI 3.0)**.
+- Every endpoint includes:
+  - Request/response examples
+  - Validation constraints (min/max, enum, date formats)
+  - Error scenarios with structured error responses
+- 📄 Available via Swagger UI or importable JSON.
+
+### 📬 Postman API Collection
 Test the full API using Postman:
-
 - Signup/Login
 - Task CRUD + filters + complete
 - Restore/delete
 - Subscription endpoints
 
-Valid and invalid test requests are included.
+Includes valid and invalid examples to match real-life testing.
+
+### 💪 Static Code Analysis (SonarQube)
+- Enforces clean code using **SonarQube**.
+- Highlights:
+  - Code smells
+  - Security issues
+  - Test coverage (optional)
+  - Clean architecture rules
+
+#### 📸 SonarQube Dashboard 
+![SonarQube Analysis](./Sonar_Qube.png)
 
 ---
 
 ## 👤 Author
-
 **Amr Mourad**
-
-> NTI DevOps | Java Spring Boot Developer | Cloud Enthusiast
-
+> NTI DevOps | Java Spring Boot Developer
