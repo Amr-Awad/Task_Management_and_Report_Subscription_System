@@ -35,7 +35,6 @@ public class AuthService {
 
         userRepository.save(user);
 
-        // 🔑 Automatically generate token for the new user
         String token = jwtUtils.generateJwtToken(UserDetailsImpl.build(user));
 
         return new JwtResponse(token, user.getName(), user.getEmail());

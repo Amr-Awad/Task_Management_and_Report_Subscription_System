@@ -211,16 +211,6 @@ public class TaskService {
         System.out.println("🧹 Cleaned up " + toDelete.size() + " old soft-deleted tasks.");
     }
 
-    public void updateTaskStatusToOverdue() {
-        LocalDate now = LocalDate.now();
-        taskRepository.updateTaskStatusToOverdue(now);
-    }
-
-    public void updateTaskStatusToOverdueById(Long id) {
-        LocalDate now = LocalDate.now();
-        taskRepository.updateTaskStatusToOverdueById(id, now);
-    }
-
     private TaskResponse toResponse(Task task) {
         return new TaskResponse(
                 task.getId(),

@@ -46,6 +46,7 @@ src/
 - Maven
 - SonarQube (for static analysis)
 - Swagger (for full API documentation)
+- Docker & Docker Compose
 
 ---
 
@@ -84,6 +85,26 @@ http://localhost:8080/swagger-ui/index.html
 ```
 
 > Make sure to configure your `application.properties` file with DB credentials and email SMTP settings.
+
+---
+
+## 🧩 Spring Profiles
+This project supports environment-specific configuration using Spring Profiles.
+
+- **Default profile**: `local` (used when no profile is passed)
+- **Docker profile**: `docker` (set in Docker Compose via `SPRING_PROFILES_ACTIVE`)
+
+### 🔁 Profiles Overview
+- `application.properties` → shared config and default profile fallback
+- `application-local.properties` → config for local development
+- `application-docker.properties` → config for container deployment (env variable based)
+
+```properties
+# Inside application.properties
+spring.profiles.active=${SPRING_PROFILES_ACTIVE:local}
+```
+
+Environment-specific files automatically override the shared one based on the profile.
 
 ---
 
@@ -234,3 +255,4 @@ Includes valid and invalid examples to match real-life testing.
 ## 👤 Author
 **Amr Mourad**
 > NTI DevOps | Java Spring Boot Developer
+
