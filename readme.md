@@ -51,11 +51,18 @@ src/
 
 ## 🚀 Prerequisites & How to Run
 
-### Prerequisites
+### Prerequisites for running 
+
+#### locally
 - Java 17 installed
 - Maven installed
-- MySQL or PostgreSQL database running (configure in `application.properties`)
+- MySQL database running (configure in `application.properties`)
 - (Optional) SonarQube instance running locally or remotely for code analysis
+
+#### containered
+- MySQL database running (configure in `docker-compose.yaml`)
+- Docker installed
+
 
 ### How to Run
 ```bash
@@ -77,6 +84,38 @@ http://localhost:8080/swagger-ui/index.html
 ```
 
 > Make sure to configure your `application.properties` file with DB credentials and email SMTP settings.
+
+---
+
+## 🐳 Docker Setup
+
+### Dockerfile (Multi-Stage Build)
+- Builds app with Maven in first stage
+- Runs the JAR in a clean OpenJDK 17 runtime
+
+### Docker Compose Setup
+- Launches both MySQL and the Spring Boot app
+
+### Run via Docker
+```bash
+# Build and run containers
+$ docker-compose up --build
+
+# App: http://localhost:8080
+# Swagger: http://localhost:8080/swagger-ui/index.html
+```
+
+### Docker Environment Variables
+```yaml
+# Database Configuration
+SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/task_management
+SPRING_DATASOURCE_USERNAME: your_username
+SPRING_DATASOURCE_PASSWORD: your_password
+SPRING_JPA_HIBERNATE_DDL_AUTO: update
+# Email Configuration for sending reports
+EMAIl_USERNAME: your_email
+EMAIL_PASSWORD: your_email_password
+```
 
 ---
 
