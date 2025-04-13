@@ -18,6 +18,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.subscription IS NOT NULL")
     List<User> findAllUsersWithSubscription();
 
-
-
 }

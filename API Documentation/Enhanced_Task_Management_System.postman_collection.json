@@ -1,0 +1,815 @@
+{
+  "info": {
+    "_postman_id": "b5cf8413-f8ce-4283-845b-2a09677397a2",
+    "name": "Task_Management_System",
+    "description": "This Postman collection documents the Task Management System APIs including User authentication, Task management, and Subscription system.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21079498"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "signup_post_request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\":\"amr\",\r\n    \"email\":\"amr@gmail.com\",\r\n    \"password\":\"a@123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/signup",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "signup"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "valid_signup_post_request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\":\"amr\",\r\n    \"email\":\"amr@gmail.com\",\r\n    \"password\":\"a@123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/auth/signup",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "auth",
+                    "signup"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "invalid_signup_post_request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\":\"amr\",\r\n    \"email\":\"amrgmail.com\",\r\n    \"password\":\"a@123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/auth/signup",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "auth",
+                    "signup"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ],
+          "description": "Registers a new user. Requires name, email, and password. Returns a JWT token on success."
+        },
+        {
+          "name": "login_post_request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"amr@gmail.com\",\r\n    \"password\":\"a@123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/signin",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "signin"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "valid_login_post_request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\":\"amr@gmail.com\",\r\n    \"password\":\"a@123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/auth/signin",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "auth",
+                    "signin"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "invalid_login_post_request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\":\"amr@gmail.com\",\r\n    \"password\":\"a@23\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/auth/signin",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "auth",
+                    "signin"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbXJAZ21haWwuY29tIiwiaWF0IjoxNzQ0NDU5NDQyLCJleHAiOjE3NDQ0NjMwNDJ9.q8x-fnKAluRB_aHaX6d4pIKO2eOsO4MRZTEPRNqdLUbRNtt0rFa82TWc6R6xODQVzwothvuUhqfdvbdcpXlFHw",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "create_task",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Submit project\",\r\n  \"description\": \"Send final project to Vodafone\",\r\n  \"startDate\": \"2025-04-09\",\r\n  \"dueDate\": \"2025-04-12\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/tasks",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "create_valid_task",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"title\": \"Submit project\",\r\n  \"description\": \"Send final project to Vodafone\",\r\n  \"startDate\": \"2025-04-09\",\r\n  \"dueDate\": \"2025-04-12\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "create_invalid_task",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"description\": \"Send final project to Vodafone\",\r\n  \"startDate\": \"abs\",\r\n  \"dueDate\": \"2025-04-12\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ],
+          "description": "Creates a new task for the authenticated user."
+        },
+        {
+          "name": "update_task",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Submit project\",\r\n  \"description\": \"Send final project to Vodafone\",\r\n  \"startDate\": \"2025-04-09\",\r\n  \"dueDate\": \"2025-04-12\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/tasks/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "tasks",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "update_valid_task",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"title\": \"Submit project\",\r\n  \"description\": \"Send final project to Vodafone\",\r\n  \"startDate\": \"2025-04-09\",\r\n  \"dueDate\": \"2025-04-12\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks",
+                    "1"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "update_invalid_task",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"description\": \"Send final project to Vodafone\",\r\n  \"startDate\": \"abs\",\r\n  \"dueDate\": \"2025-04-12\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks/5",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks",
+                    "5"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "delete_task",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/tasks/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "tasks",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "valid_delete_task",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks/8",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks",
+                    "8"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "invalid_delete_task",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks",
+                    "1"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ],
+          "description": "Soft deletes the task (doesn't permanently remove it). Only the task owner can do this."
+        },
+        {
+          "name": "delete_batch_tasks",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/tasks?from=2025-04-01&to=2025-04-10",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "tasks"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2025-04-01"
+                },
+                {
+                  "key": "to",
+                  "value": "2025-04-10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "valid_delete_batch_tasks",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks?from=2025-04-01&to=2025-04-10",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2025-04-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2025-04-10"
+                    }
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "invalid_delete_batch_tasks",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks?from=2025-04-01&to=abc",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2025-04-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "abc"
+                    }
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "restore_deleted_task(s)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/tasks/restore",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "tasks",
+                "restore"
+              ]
+            }
+          },
+          "response": [],
+          "description": "Restores the last deleted task(s) (batch or single), depending on what was deleted most recently."
+        },
+        {
+          "name": "get_task",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "get_all_tasks",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [],
+          "description": "Retrieves all tasks for the authenticated user. Statuses are dynamically updated to OVERDUE based on dueDate."
+        },
+        {
+          "name": "get_all_tasks_with_filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/tasks/filters?from=2025-04-01&to=2025-04-10&status=COMPLETED",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "tasks",
+                "filters"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2025-04-01"
+                },
+                {
+                  "key": "to",
+                  "value": "2025-04-10"
+                },
+                {
+                  "key": "status",
+                  "value": "COMPLETED"
+                }
+              ]
+            }
+          },
+          "response": [],
+          "description": "Retrieves all tasks for the authenticated user. Statuses are dynamically updated to OVERDUE based on dueDate."
+        },
+        {
+          "name": "complete_task",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/tasks/1/complete",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "tasks",
+                "1",
+                "complete"
+              ]
+            }
+          },
+          "response": [],
+          "description": "Marks the task as COMPLETED and sets the current date as the completionDate."
+        }
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "get_subscription",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/subscription",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "subscription"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "subscribe",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"frequency\": \"DAILY\",\r\n  \"reportHour\": 7\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/subscription",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "subscription"
+              ]
+            }
+          },
+          "response": [],
+          "description": "Subscribes the authenticated user to periodic reports (DAILY, WEEKLY, MONTHLY) sent at a specific hour."
+        },
+        {
+          "name": "unsubscribe",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/subscription",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "subscription"
+              ]
+            }
+          },
+          "response": [],
+          "description": "Subscribes the authenticated user to periodic reports (DAILY, WEEKLY, MONTHLY) sent at a specific hour."
+        }
+      ],
+      "description": "```\n<code ></code>\n\n ```"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbXJAZ21haWwuY29tIiwiaWF0IjoxNzQ0NDgxMTY4LCJleHAiOjE3NDQ0ODQ3Njh9.abdVFImfeQmmM365RcBXDTK7UQa9n_XJpmosvvp_cQJ4iHCVjdn36cepA-Fdv52FWXCMjyUjs6IWa8fXr74xyg",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

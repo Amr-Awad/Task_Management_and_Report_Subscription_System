@@ -37,11 +37,15 @@ public class ReportEventListener {
 
     private void sendEmail(String to, String subject, String content) {
 
-         SimpleMailMessage message = new SimpleMailMessage();
-         message.setTo(to);
-         message.setSubject(subject);
-         message.setText(content);
-         mailSender.send(message);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(content);
+
+        message.setFrom("noreply@taskmanager.com");
+        message.setReplyTo("noreply@taskmanager.com");
+
+        mailSender.send(message);
 
         log.info("Email sent to {} with subject: {}", to, subject);
     }

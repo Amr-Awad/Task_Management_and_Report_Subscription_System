@@ -1,19 +1,20 @@
 package org.example.task.model.dto.auth;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.ToString;
 
-
-/** This class represents the response object that is returned to the client
- * after a successful authentication. It contains the JWT token, username,
- * and email of the authenticated user.
- */
-
 @Getter @ToString
+@Schema(description = "Authentication response containing JWT token and user details")
 public class JwtResponse {
 
+    @Schema(description = "JWT access token", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
     private String token;
+
+    @Schema(description = "User's username", example = "john_doe")
     private String username;
+
+    @Schema(description = "User's email address", example = "john@example.com")
     private String email;
 
     public JwtResponse(String token, String username, String email) {
@@ -22,4 +23,3 @@ public class JwtResponse {
         this.email = email;
     }
 }
-

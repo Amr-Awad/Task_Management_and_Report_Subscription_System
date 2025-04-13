@@ -1,9 +1,12 @@
 package org.example.task.util.enums;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Task status options")
 public enum TaskStatus {
-    PENDING("pending"),
-    COMPLETED("completed"),
-    OVERDUE("overdue");
+    @Schema(description = "Task is pending") PENDING("pending"),
+    @Schema(description = "Task is completed") COMPLETED("completed"),
+    @Schema(description = "Task is overdue") OVERDUE("overdue");
 
     private final String status;
 

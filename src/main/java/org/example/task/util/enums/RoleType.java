@@ -1,7 +1,10 @@
 package org.example.task.util.enums;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "User role types")
 public enum RoleType {
-    ROLE_USER("user");
+    @Schema(description = "Standard user role") ROLE_USER("user");
 
     private final String role;
 
@@ -9,9 +12,7 @@ public enum RoleType {
         this.role = role;
     }
 
-
     public String getRole() {
         return role;
     }
-
 }
